@@ -1,236 +1,231 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <!-- saved from url=(0068)http://www.java2s.com/Code/JavaScriptDemo/MD5HashinginJavaScript.htm -->
 <HTML>
-<HEAD><TITLE>MD5 Hashing</TITLE>
-<script language="JavaScript" src="common.js"></script>
-<link href="Trim.css" rel="stylesheet" type="text/css">
+
+<HEAD>
+    <TITLE>MyEncrption with Split</TITLE>
+    <script language="JavaScript" src="common.js"></script>
+    <link href="Trim.css" rel="stylesheet" type="text/css">
 </HEAD>
+
 <BODY background="Rspace.jpg" STYLE="word-wrap:break-word;overflow:auto" oncontextmenu="return false;">
-<center>
-<!-- ******************************************************************************************
+    <center>
+        <!-- ******************************************************************************************
 ****************************************** MD5 Coding Start ***********************************
 ********************************************************************************************-->
 
-<SCRIPT language=JavaScript>
-/*
- * A JavaScript implementation of the RSA Data Security, Inc. MD5 Message
- * Digest Algorithm, as defined in RFC 1321.
- * Version 2.1 Copyright (C) Paul Johnston 1999 - 2002.
- * Other contributors: Greg Holt, Andrew Kepert, Ydnar, Lostinet
- * Distributed under the BSD License
- * See http://pajhome.org.uk/crypt/md5 for more info.
- */
+        <SCRIPT language=JavaScript>
+            /*
+             * A JavaScript implementation of the RSA Data Security, Inc. MD5 Message
+             * Digest Algorithm, as defined in RFC 1321.
+             * Version 2.1 Copyright (C) Paul Johnston 1999 - 2002.
+             * Other contributors: Greg Holt, Andrew Kepert, Ydnar, Lostinet
+             * Distributed under the BSD License
+             * See http://pajhome.org.uk/crypt/md5 for more info.
+             */
+            var hexcase = 0;
+            var b64pad = "";
+            var chrsz = 8;
 
-var hexcase = 0;
-var b64pad  = "";
-var chrsz   = 8; 
+            function hex_md5(s) {
+                return binl2hex(core_md5(str2binl(s), s.length * chrsz));
+            }
 
-function hex_md5(s){ return binl2hex(core_md5(str2binl(s), s.length * chrsz));}
-function b64_md5(s){ return binl2b64(core_md5(str2binl(s), s.length * chrsz));}
-function str_md5(s){ return binl2str(core_md5(str2binl(s), s.length * chrsz));}
-function hex_hmac_md5(key, data) { return binl2hex(core_hmac_md5(key, data)); }
-function b64_hmac_md5(key, data) { return binl2b64(core_hmac_md5(key, data)); }
-function str_hmac_md5(key, data) { return binl2str(core_hmac_md5(key, data)); }
+            function b64_md5(s) {
+                return binl2b64(core_md5(str2binl(s), s.length * chrsz));
+            }
 
-function md5_vm_test()
-{
-  return hex_md5("abc") == "900150983cd24fb0d6963f7d28e17f72";
-}
+            function str_md5(s) {
+                return binl2str(core_md5(str2binl(s), s.length * chrsz));
+            }
 
-function core_md5(x, len)
-{
-  x[len >> 5] |= 0x80 << ((len) % 32);
-  x[(((len + 64) >>> 9) << 4) + 14] = len;
+            function hex_hmac_md5(key, data) {
+                return binl2hex(core_hmac_md5(key, data));
+            }
 
-  var a =  1732584193;
-  var b = -271733879;
-  var c = -1732584194;
-  var d =  271733878;
+            function b64_hmac_md5(key, data) {
+                return binl2b64(core_hmac_md5(key, data));
+            }
 
-  for(var i = 0; i < x.length; i += 16)
-  {
-    var olda = a;
-    var oldb = b;
-    var oldc = c;
-    var oldd = d;
+            function str_hmac_md5(key, data) {
+                return binl2str(core_hmac_md5(key, data));
+            }
 
-    a = md5_ff(a, b, c, d, x[i+ 0], 7 , -680876936);
-    d = md5_ff(d, a, b, c, x[i+ 1], 12, -389564586);
-    c = md5_ff(c, d, a, b, x[i+ 2], 17,  606105819);
-    b = md5_ff(b, c, d, a, x[i+ 3], 22, -1044525330);
-    a = md5_ff(a, b, c, d, x[i+ 4], 7 , -176418897);
-    d = md5_ff(d, a, b, c, x[i+ 5], 12,  1200080426);
-    c = md5_ff(c, d, a, b, x[i+ 6], 17, -1473231341);
-    b = md5_ff(b, c, d, a, x[i+ 7], 22, -45705983);
-    a = md5_ff(a, b, c, d, x[i+ 8], 7 ,  1770035416);
-    d = md5_ff(d, a, b, c, x[i+ 9], 12, -1958414417);
-    c = md5_ff(c, d, a, b, x[i+10], 17, -42063);
-    b = md5_ff(b, c, d, a, x[i+11], 22, -1990404162);
-    a = md5_ff(a, b, c, d, x[i+12], 7 ,  1804603682);
-    d = md5_ff(d, a, b, c, x[i+13], 12, -40341101);
-    c = md5_ff(c, d, a, b, x[i+14], 17, -1502002290);
-    b = md5_ff(b, c, d, a, x[i+15], 22,  1236535329);
+            function md5_vm_test() {
+                return hex_md5("abc") == "900150983cd24fb0d6963f7d28e17f72";
+            }
 
-    a = md5_gg(a, b, c, d, x[i+ 1], 5 , -165796510);
-    d = md5_gg(d, a, b, c, x[i+ 6], 9 , -1069501632);
-    c = md5_gg(c, d, a, b, x[i+11], 14,  643717713);
-    b = md5_gg(b, c, d, a, x[i+ 0], 20, -373897302);
-    a = md5_gg(a, b, c, d, x[i+ 5], 5 , -701558691);
-    d = md5_gg(d, a, b, c, x[i+10], 9 ,  38016083);
-    c = md5_gg(c, d, a, b, x[i+15], 14, -660478335);
-    b = md5_gg(b, c, d, a, x[i+ 4], 20, -405537848);
-    a = md5_gg(a, b, c, d, x[i+ 9], 5 ,  568446438);
-    d = md5_gg(d, a, b, c, x[i+14], 9 , -1019803690);
-    c = md5_gg(c, d, a, b, x[i+ 3], 14, -187363961);
-    b = md5_gg(b, c, d, a, x[i+ 8], 20,  1163531501);
-    a = md5_gg(a, b, c, d, x[i+13], 5 , -1444681467);
-    d = md5_gg(d, a, b, c, x[i+ 2], 9 , -51403784);
-    c = md5_gg(c, d, a, b, x[i+ 7], 14,  1735328473);
-    b = md5_gg(b, c, d, a, x[i+12], 20, -1926607734);
+            function core_md5(x, len) {
+                x[len >> 5] |= 0x80 << ((len) % 32);
+                x[(((len + 64) >>> 9) << 4) + 14] = len;
+                var a = 1732584193;
+                var b = -271733879;
+                var c = -1732584194;
+                var d = 271733878;
+                for (var i = 0; i < x.length; i += 16) {
+                    var olda = a;
+                    var oldb = b;
+                    var oldc = c;
+                    var oldd = d;
+                    a = md5_ff(a, b, c, d, x[i + 0], 7, -680876936);
+                    d = md5_ff(d, a, b, c, x[i + 1], 12, -389564586);
+                    c = md5_ff(c, d, a, b, x[i + 2], 17, 606105819);
+                    b = md5_ff(b, c, d, a, x[i + 3], 22, -1044525330);
+                    a = md5_ff(a, b, c, d, x[i + 4], 7, -176418897);
+                    d = md5_ff(d, a, b, c, x[i + 5], 12, 1200080426);
+                    c = md5_ff(c, d, a, b, x[i + 6], 17, -1473231341);
+                    b = md5_ff(b, c, d, a, x[i + 7], 22, -45705983);
+                    a = md5_ff(a, b, c, d, x[i + 8], 7, 1770035416);
+                    d = md5_ff(d, a, b, c, x[i + 9], 12, -1958414417);
+                    c = md5_ff(c, d, a, b, x[i + 10], 17, -42063);
+                    b = md5_ff(b, c, d, a, x[i + 11], 22, -1990404162);
+                    a = md5_ff(a, b, c, d, x[i + 12], 7, 1804603682);
+                    d = md5_ff(d, a, b, c, x[i + 13], 12, -40341101);
+                    c = md5_ff(c, d, a, b, x[i + 14], 17, -1502002290);
+                    b = md5_ff(b, c, d, a, x[i + 15], 22, 1236535329);
+                    a = md5_gg(a, b, c, d, x[i + 1], 5, -165796510);
+                    d = md5_gg(d, a, b, c, x[i + 6], 9, -1069501632);
+                    c = md5_gg(c, d, a, b, x[i + 11], 14, 643717713);
+                    b = md5_gg(b, c, d, a, x[i + 0], 20, -373897302);
+                    a = md5_gg(a, b, c, d, x[i + 5], 5, -701558691);
+                    d = md5_gg(d, a, b, c, x[i + 10], 9, 38016083);
+                    c = md5_gg(c, d, a, b, x[i + 15], 14, -660478335);
+                    b = md5_gg(b, c, d, a, x[i + 4], 20, -405537848);
+                    a = md5_gg(a, b, c, d, x[i + 9], 5, 568446438);
+                    d = md5_gg(d, a, b, c, x[i + 14], 9, -1019803690);
+                    c = md5_gg(c, d, a, b, x[i + 3], 14, -187363961);
+                    b = md5_gg(b, c, d, a, x[i + 8], 20, 1163531501);
+                    a = md5_gg(a, b, c, d, x[i + 13], 5, -1444681467);
+                    d = md5_gg(d, a, b, c, x[i + 2], 9, -51403784);
+                    c = md5_gg(c, d, a, b, x[i + 7], 14, 1735328473);
+                    b = md5_gg(b, c, d, a, x[i + 12], 20, -1926607734);
+                    a = md5_hh(a, b, c, d, x[i + 5], 4, -378558);
+                    d = md5_hh(d, a, b, c, x[i + 8], 11, -2022574463);
+                    c = md5_hh(c, d, a, b, x[i + 11], 16, 1839030562);
+                    b = md5_hh(b, c, d, a, x[i + 14], 23, -35309556);
+                    a = md5_hh(a, b, c, d, x[i + 1], 4, -1530992060);
+                    d = md5_hh(d, a, b, c, x[i + 4], 11, 1272893353);
+                    c = md5_hh(c, d, a, b, x[i + 7], 16, -155497632);
+                    b = md5_hh(b, c, d, a, x[i + 10], 23, -1094730640);
+                    a = md5_hh(a, b, c, d, x[i + 13], 4, 681279174);
+                    d = md5_hh(d, a, b, c, x[i + 0], 11, -358537222);
+                    c = md5_hh(c, d, a, b, x[i + 3], 16, -722521979);
+                    b = md5_hh(b, c, d, a, x[i + 6], 23, 76029189);
+                    a = md5_hh(a, b, c, d, x[i + 9], 4, -640364487);
+                    d = md5_hh(d, a, b, c, x[i + 12], 11, -421815835);
+                    c = md5_hh(c, d, a, b, x[i + 15], 16, 530742520);
+                    b = md5_hh(b, c, d, a, x[i + 2], 23, -995338651);
+                    a = md5_ii(a, b, c, d, x[i + 0], 6, -198630844);
+                    d = md5_ii(d, a, b, c, x[i + 7], 10, 1126891415);
+                    c = md5_ii(c, d, a, b, x[i + 14], 15, -1416354905);
+                    b = md5_ii(b, c, d, a, x[i + 5], 21, -57434055);
+                    a = md5_ii(a, b, c, d, x[i + 12], 6, 1700485571);
+                    d = md5_ii(d, a, b, c, x[i + 3], 10, -1894986606);
+                    c = md5_ii(c, d, a, b, x[i + 10], 15, -1051523);
+                    b = md5_ii(b, c, d, a, x[i + 1], 21, -2054922799);
+                    a = md5_ii(a, b, c, d, x[i + 8], 6, 1873313359);
+                    d = md5_ii(d, a, b, c, x[i + 15], 10, -30611744);
+                    c = md5_ii(c, d, a, b, x[i + 6], 15, -1560198380);
+                    b = md5_ii(b, c, d, a, x[i + 13], 21, 1309151649);
+                    a = md5_ii(a, b, c, d, x[i + 4], 6, -145523070);
+                    d = md5_ii(d, a, b, c, x[i + 11], 10, -1120210379);
+                    c = md5_ii(c, d, a, b, x[i + 2], 15, 718787259);
+                    b = md5_ii(b, c, d, a, x[i + 9], 21, -343485551);
+                    a = safe_add(a, olda);
+                    b = safe_add(b, oldb);
+                    c = safe_add(c, oldc);
+                    d = safe_add(d, oldd);
+                }
+                return Array(a, b, c, d);
+            }
 
-    a = md5_hh(a, b, c, d, x[i+ 5], 4 , -378558);
-    d = md5_hh(d, a, b, c, x[i+ 8], 11, -2022574463);
-    c = md5_hh(c, d, a, b, x[i+11], 16,  1839030562);
-    b = md5_hh(b, c, d, a, x[i+14], 23, -35309556);
-    a = md5_hh(a, b, c, d, x[i+ 1], 4 , -1530992060);
-    d = md5_hh(d, a, b, c, x[i+ 4], 11,  1272893353);
-    c = md5_hh(c, d, a, b, x[i+ 7], 16, -155497632);
-    b = md5_hh(b, c, d, a, x[i+10], 23, -1094730640);
-    a = md5_hh(a, b, c, d, x[i+13], 4 ,  681279174);
-    d = md5_hh(d, a, b, c, x[i+ 0], 11, -358537222);
-    c = md5_hh(c, d, a, b, x[i+ 3], 16, -722521979);
-    b = md5_hh(b, c, d, a, x[i+ 6], 23,  76029189);
-    a = md5_hh(a, b, c, d, x[i+ 9], 4 , -640364487);
-    d = md5_hh(d, a, b, c, x[i+12], 11, -421815835);
-    c = md5_hh(c, d, a, b, x[i+15], 16,  530742520);
-    b = md5_hh(b, c, d, a, x[i+ 2], 23, -995338651);
+            function md5_cmn(q, a, b, x, s, t) {
+                return safe_add(bit_rol(safe_add(safe_add(a, q), safe_add(x, t)), s), b);
+            }
 
-    a = md5_ii(a, b, c, d, x[i+ 0], 6 , -198630844);
-    d = md5_ii(d, a, b, c, x[i+ 7], 10,  1126891415);
-    c = md5_ii(c, d, a, b, x[i+14], 15, -1416354905);
-    b = md5_ii(b, c, d, a, x[i+ 5], 21, -57434055);
-    a = md5_ii(a, b, c, d, x[i+12], 6 ,  1700485571);
-    d = md5_ii(d, a, b, c, x[i+ 3], 10, -1894986606);
-    c = md5_ii(c, d, a, b, x[i+10], 15, -1051523);
-    b = md5_ii(b, c, d, a, x[i+ 1], 21, -2054922799);
-    a = md5_ii(a, b, c, d, x[i+ 8], 6 ,  1873313359);
-    d = md5_ii(d, a, b, c, x[i+15], 10, -30611744);
-    c = md5_ii(c, d, a, b, x[i+ 6], 15, -1560198380);
-    b = md5_ii(b, c, d, a, x[i+13], 21,  1309151649);
-    a = md5_ii(a, b, c, d, x[i+ 4], 6 , -145523070);
-    d = md5_ii(d, a, b, c, x[i+11], 10, -1120210379);
-    c = md5_ii(c, d, a, b, x[i+ 2], 15,  718787259);
-    b = md5_ii(b, c, d, a, x[i+ 9], 21, -343485551);
+            function md5_ff(a, b, c, d, x, s, t) {
+                return md5_cmn((b & c) | ((~b) & d), a, b, x, s, t);
+            }
 
-    a = safe_add(a, olda);
-    b = safe_add(b, oldb);
-    c = safe_add(c, oldc);
-    d = safe_add(d, oldd);
-  }
-  return Array(a, b, c, d);
+            function md5_gg(a, b, c, d, x, s, t) {
+                return md5_cmn((b & d) | (c & (~d)), a, b, x, s, t);
+            }
 
-}
+            function md5_hh(a, b, c, d, x, s, t) {
+                return md5_cmn(b ^ c ^ d, a, b, x, s, t);
+            }
 
-function md5_cmn(q, a, b, x, s, t)
-{
-  return safe_add(bit_rol(safe_add(safe_add(a, q), safe_add(x, t)), s),b);
-}
-function md5_ff(a, b, c, d, x, s, t)
-{
-  return md5_cmn((b & c) | ((~b) & d), a, b, x, s, t);
-}
-function md5_gg(a, b, c, d, x, s, t)
-{
-  return md5_cmn((b & d) | (c & (~d)), a, b, x, s, t);
-}
-function md5_hh(a, b, c, d, x, s, t)
-{
-  return md5_cmn(b ^ c ^ d, a, b, x, s, t);
-}
-function md5_ii(a, b, c, d, x, s, t)
-{
-  return md5_cmn(c ^ (b | (~d)), a, b, x, s, t);
-}
+            function md5_ii(a, b, c, d, x, s, t) {
+                return md5_cmn(c ^ (b | (~d)), a, b, x, s, t);
+            }
 
-function core_hmac_md5(key, data)
-{
-  var bkey = str2binl(key);
-  if(bkey.length > 16) bkey = core_md5(bkey, key.length * chrsz);
+            function core_hmac_md5(key, data) {
+                var bkey = str2binl(key);
+                if (bkey.length > 16) bkey = core_md5(bkey, key.length * chrsz);
+                var ipad = Array(16),
+                    opad = Array(16);
+                for (var i = 0; i < 16; i++) {
+                    ipad[i] = bkey[i] ^ 0x36363636;
+                    opad[i] = bkey[i] ^ 0x5C5C5C5C;
+                }
+                var hash = core_md5(ipad.concat(str2binl(data)), 512 + data.length * chrsz);
+                return core_md5(opad.concat(hash), 512 + 128);
+            }
 
-  var ipad = Array(16), opad = Array(16);
-  for(var i = 0; i < 16; i++)
-  {
-    ipad[i] = bkey[i] ^ 0x36363636;
-    opad[i] = bkey[i] ^ 0x5C5C5C5C;
-  }
+            function safe_add(x, y) {
+                var lsw = (x & 0xFFFF) + (y & 0xFFFF);
+                var msw = (x >> 16) + (y >> 16) + (lsw >> 16);
+                return (msw << 16) | (lsw & 0xFFFF);
+            }
 
-  var hash = core_md5(ipad.concat(str2binl(data)), 512 + data.length * chrsz);
-  return core_md5(opad.concat(hash), 512 + 128);
-}
+            function bit_rol(num, cnt) {
+                return (num << cnt) | (num >>> (32 - cnt));
+            }
 
-function safe_add(x, y)
-{
-  var lsw = (x & 0xFFFF) + (y & 0xFFFF);
-  var msw = (x >> 16) + (y >> 16) + (lsw >> 16);
-  return (msw << 16) | (lsw & 0xFFFF);
-}
+            function str2binl(str) {
+                var bin = Array();
+                var mask = (1 << chrsz) - 1;
+                for (var i = 0; i < str.length * chrsz; i += chrsz)
+                    bin[i >> 5] |= (str.charCodeAt(i / chrsz) & mask) << (i % 32);
+                return bin;
+            }
 
-function bit_rol(num, cnt)
-{
-  return (num << cnt) | (num >>> (32 - cnt));
-}
+            function binl2str(bin) {
+                var str = "";
+                var mask = (1 << chrsz) - 1;
+                for (var i = 0; i < bin.length * 32; i += chrsz)
+                    str += String.fromCharCode((bin[i >> 5] >>> (i % 32)) & mask);
+                return str;
+            }
 
-function str2binl(str)
-{
-  var bin = Array();
-  var mask = (1 << chrsz) - 1;
-  for(var i = 0; i < str.length * chrsz; i += chrsz)
-    bin[i>>5] |= (str.charCodeAt(i / chrsz) & mask) << (i%32);
-  return bin;
-}
+            function binl2hex(binarray) {
+                var hex_tab = hexcase ? "0123456789ABCDEF" : "0123456789abcdef";
+                var str = "";
+                for (var i = 0; i < binarray.length * 4; i++) {
+                    str += hex_tab.charAt((binarray[i >> 2] >> ((i % 4) * 8 + 4)) & 0xF) +
+                        hex_tab.charAt((binarray[i >> 2] >> ((i % 4) * 8)) & 0xF);
+                }
+                return str;
+            }
 
-function binl2str(bin)
-{
-  var str = "";
-  var mask = (1 << chrsz) - 1;
-  for(var i = 0; i < bin.length * 32; i += chrsz)
-    str += String.fromCharCode((bin[i>>5] >>> (i % 32)) & mask);
-  return str;
-}
+            function binl2b64(binarray) {
+                var tab = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+                var str = "";
+                for (var i = 0; i < binarray.length * 4; i += 3) {
+                    var triplet = (((binarray[i >> 2] >> 8 * (i % 4)) & 0xFF) << 16) |
+                        (((binarray[i + 1 >> 2] >> 8 * ((i + 1) % 4)) & 0xFF) << 8) |
+                        ((binarray[i + 2 >> 2] >> 8 * ((i + 2) % 4)) & 0xFF);
+                    for (var j = 0; j < 4; j++) {
+                        if (i * 8 + j * 6 > binarray.length * 32) str += b64pad;
+                        else str += tab.charAt((triplet >> 6 * (3 - j)) & 0x3F);
+                    }
+                }
+                return str;
+            }
+        </SCRIPT>
 
-function binl2hex(binarray)
-{
-  var hex_tab = hexcase ? "0123456789ABCDEF" : "0123456789abcdef";
-  var str = "";
-  for(var i = 0; i < binarray.length * 4; i++)
-  {
-    str += hex_tab.charAt((binarray[i>>2] >> ((i%4)*8+4)) & 0xF) +
-           hex_tab.charAt((binarray[i>>2] >> ((i%4)*8  )) & 0xF);
-  }
-  return str;
-}
-
-function binl2b64(binarray)
-{
-  var tab = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-  var str = "";
-  for(var i = 0; i < binarray.length * 4; i += 3)
-  {
-    var triplet = (((binarray[i   >> 2] >> 8 * ( i   %4)) & 0xFF) << 16)
-                | (((binarray[i+1 >> 2] >> 8 * ((i+1)%4)) & 0xFF) << 8 )
-                |  ((binarray[i+2 >> 2] >> 8 * ((i+2)%4)) & 0xFF);
-    for(var j = 0; j < 4; j++)
-    {
-      if(i * 8 + j * 6 > binarray.length * 32) str += b64pad;
-      else str += tab.charAt((triplet >> 6*(3-j)) & 0x3F);
-    }
-  }
-  return str;
-}
-
-		</SCRIPT>
-
-<br><br><B>
+        <br><br>
+        <B>
 
 <Table>
 
@@ -255,9 +250,230 @@ Input </font></TD><TD><INPUT size=40 name=input class = 'HEADStyle' ></td></tr>
 <!-- ******************************************************************************************
 ****************************************** RC4 Encryption & Decryption Start ******************
 ********************************************************************************************-->
-<br><center><font color="white"> RC4 Encryption and Decryption.</font></center><br>
-<script language="javascript" type="text/javascript">function remove(string){var output = new String ("");for (var i=0; i<string.length; i++){if (string.charCodeAt(i) < 128) {output += string.charAt(i)}}return output;} function convert(string){var output = new String ("");for (var i=0, valid="123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"; i<string.length; i++){var x = valid.indexOf(string.charAt(i));if (x != -1) {if (x > 30) {x = x -10;}if (x > 20) {x = x -10;}if (x > 10) {x = x -10;}output += x;}}return output;} function DecToHex(x) {var s = '', x_ = !isNaN(Number(x)) ? Number(x) : 0;while( Boolean( x_ ) ) { s = '0123456789ABCDEF'.charAt( x_ & 0xf ) + s; x_ >>>= 4; }while ( s.length & 0x7 ) { s = '0' + s; } return ( s );}function BuildKey(button_){var k = new Array(); k[0] = new Number (convert (button_.form.encrypt_key1.value )) ;k[1] = new Number (convert (button_.form.encrypt_key2.value)) ;k[2] = new Number (convert (button_.form.encrypt_key3.value)) ;k[3] = new Number (convert (button_.form.encrypt_key4.value)) ;return( k );}function onClear(_button){_button.form.ioput.value = ""; _button.form.status.value = "Input area has been cleared.";_button.form.ioput.focus();return ( false );}function Encipher(p1, p2, k){var temp = new Array();temp[0] = 1; temp[1] = new Number(p1);temp[2] = new Number(p2);var sum = 0;var delta = 0x9E3779B9;var n = 32;while ( n-- > 0 ){temp[1] = temp[1] + ( ( temp[2] << 4 ^ temp[2] >> 5 ) + temp[2] ^ sum + k[ ( sum & 3 ) ] );sum = sum + delta;temp[2] = temp[2] + ( ( temp[1] << 4 ^ temp[1] >> 5 ) + temp[1] ^ sum + k[ ( sum >> 11 & 3 ) ] );}return( temp );}function Decipher(p1, p2, k){var temp = new Array();temp[0] = 1; temp[1] = new Number(p1);temp[2] = new Number(p2);var sum = 0xC6EF3720;var delta = 0x9E3779B9;var n = 32;while ( n-- > 0 ){temp[2] = temp[2] - ( ( temp[1] << 4 ^ temp[1] >> 5 ) + temp[1] ^ sum + k[ ( sum >> 11 & 3 )] );sum = sum - delta;temp[1] = temp[1] - ( ( temp[2] << 4 ^ temp[2] >> 5 ) + temp[2] ^ sum + k[ ( sum & 3 ) ] );}return( temp );}function EncipherText(_button){var inString = remove (_button.form.ioput.value);var p1D = 0; var p2D = 0;var res = null; var outString = '';var invlen = 100/inString.length;var errormark = "!!!!!!!\x0d\x0d!!!!!!!";key = BuildKey( _button);_button.form.status.value = "Preparing to encipher.";while ( inString.length & 0x7 ) { inString += '\x20'; }var i = 0;while ( i < inString.length ) {p1D = inString.charCodeAt(i++);p1D |= inString.charCodeAt(i++) << 8;p1D |= inString.charCodeAt(i++) << 16;p1D |= inString.charCodeAt(i++) << 24;p1D &= 0xFFFFFFFF;p2D = inString.charCodeAt(i++);p2D |= inString.charCodeAt(i++) << 8;p2D |= inString.charCodeAt(i++) << 16;p2D |= inString.charCodeAt(i++) << 24;p2D &= 0xFFFFFFFF;res = Encipher(p1D, p2D, key);outString += ( res[0] ? '' + DecToHex(res[1]) + DecToHex(res[2]) : errormark );p1D = 0; p2D = 0; res = null;_button.form.status.value = "Enciphering: " + Math.round(i * invlen) + "% complete.";}_button.form.ioput.value = "";_button.form.ioput.value = outString;_button.form.status.value = "Enciphering completed.";return ( false );}function DecipherText(_button){ key = BuildKey( _button); _button.form.status.value = "Preparing to decipher.";var inString = _button.form.ioput.value;var invlen = 100/inString.length;var p3H = ''; var p4H = '';var p3D = 0; var p4D = 0;var res = null; var outString = '';var i = 0; while ( i < inString.length ) {p3H += inString.charAt(i++); p3H += inString.charAt(i++); p3H += inString.charAt(i++); p3H += inString.charAt(i++); p3H += inString.charAt(i++); p3H += inString.charAt(i++); p3H += inString.charAt(i++); p3H += inString.charAt(i++); p4H += inString.charAt(i++); p4H += inString.charAt(i++); p4H += inString.charAt(i++); p4H += inString.charAt(i++); p4H += inString.charAt(i++); p4H += inString.charAt(i++); p4H += inString.charAt(i++); p4H += inString.charAt(i++); p3D = parseInt(p3H,16);p4D = parseInt(p4H,16);res = Decipher(p3D, p4D, key);if ( res[0] ) {outString += String.fromCharCode( ( res[1] & 0x000000FF ) );outString += String.fromCharCode( ( res[1] & 0x0000FF00 ) >> 8 );outString += String.fromCharCode( ( res[1] & 0x00FF0000 ) >> 16 );outString += String.fromCharCode( ( res[1] & 0xFF000000 ) >> 24 );outString += String.fromCharCode( ( res[2] & 0x000000FF ) );outString += String.fromCharCode( ( res[2] & 0x0000FF00 ) >> 8 );outString += String.fromCharCode( ( res[2] & 0x00FF0000 ) >> 16 );outString += String.fromCharCode( ( res[2] & 0xFF000000 ) >> 24 );}p3H = ''; p4H = '';p3D = 0; p4D = 0;res = null;_button.form.status.value = "Deciphering: " + Math.round(i * invlen) + "% complete.";}_button.form.ioput.value = "";_button.form.ioput.value = outString;_button.form.status.value = "Deciphering completed.";return ( false );}</script><div id="control" class="formblock"><form name="console" action="javascript:void(0)" onsubmit="return false"><textarea name="ioput" cols="30" rows="14" wrap="soft"></textarea><br><input class = 'HEADStyle'  name="status" value="" type="text" size="27" disabled><br><font color="gray">Key 1&nbsp;<input class = 'HEADStyle'  name="encrypt_key1" type="password" size="16" value=""><br>Key 2&nbsp;<input class = 'HEADStyle'  name="encrypt_key2" type="password" size="16" value=""><br>Key 3&nbsp;<input class = 'HEADStyle'  name="encrypt_key3" type="password" size="16" value=""><br>Key 4&nbsp;<input class = 'HEADStyle'  name="encrypt_key4" type="password" size="16" value=""><br> <input class = 'HEADStyle'  name="reset" value="Reset" type="reset"><input class = 'HEADStyle'  name="encipher" value="Encipher" type="button" onclick="EncipherText(this)"><input class = 'HEADStyle'  name="decipher" value="Decipher" type="button" onclick="DecipherText(this)"><br></font></form></div>
+<center><font color="white"> RC4 Encryption and Decryption.</font></center><br>
+<script language="javascript" type="text/javascript">
+    function remove(string) {
+        var output = new String("");
+        for (var i = 0; i < string.length; i++) {
+            if (string.charCodeAt(i) < 128) {
+                output += string.charAt(i)
+            }
+        }
+        return output;
+    }
 
+    function convert(string) {
+        var output = new String("");
+        for (var i = 0, valid = "123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"; i < string.length; i++) {
+            var x = valid.indexOf(string.charAt(i));
+            if (x != -1) {
+                if (x > 30) {
+                    x = x - 10;
+                }
+                if (x > 20) {
+                    x = x - 10;
+                }
+                if (x > 10) {
+                    x = x - 10;
+                }
+                output += x;
+            }
+        }
+        return output;
+    }
+
+    function DecToHex(x) {
+        var s = '',
+            x_ = !isNaN(Number(x)) ? Number(x) : 0;
+        while (Boolean(x_)) {
+            s = '0123456789ABCDEF'.charAt(x_ & 0xf) + s;
+            x_ >>>= 4;
+        }
+        while (s.length & 0x7) {
+            s = '0' + s;
+        }
+        return (s);
+    }
+
+    function BuildKey(button_) {
+        var k = new Array();
+        k[0] = new Number(convert(button_.form.encrypt_key1.value));
+        k[1] = new Number(convert(button_.form.encrypt_key2.value));
+        k[2] = new Number(convert(button_.form.encrypt_key3.value));
+        k[3] = new Number(convert(button_.form.encrypt_key4.value));
+        return (k);
+    }
+
+    function onClear(_button) {
+        _button.form.ioput.value = "";
+        _button.form.status.value = "Input area has been cleared.";
+        _button.form.ioput.focus();
+        return (false);
+    }
+
+    function Encipher(p1, p2, k) {
+        var temp = new Array();
+        temp[0] = 1;
+        temp[1] = new Number(p1);
+        temp[2] = new Number(p2);
+        var sum = 0;
+        var delta = 0x9E3779B9;
+        var n = 32;
+        while (n-- > 0) {
+            temp[1] = temp[1] + ((temp[2] << 4 ^ temp[2] >> 5) + temp[2] ^ sum + k[(sum & 3)]);
+            sum = sum + delta;
+            temp[2] = temp[2] + ((temp[1] << 4 ^ temp[1] >> 5) + temp[1] ^ sum + k[(sum >> 11 & 3)]);
+        }
+        return (temp);
+    }
+
+    function Decipher(p1, p2, k) {
+        var temp = new Array();
+        temp[0] = 1;
+        temp[1] = new Number(p1);
+        temp[2] = new Number(p2);
+        var sum = 0xC6EF3720;
+        var delta = 0x9E3779B9;
+        var n = 32;
+        while (n-- > 0) {
+            temp[2] = temp[2] - ((temp[1] << 4 ^ temp[1] >> 5) + temp[1] ^ sum + k[(sum >> 11 & 3)]);
+            sum = sum - delta;
+            temp[1] = temp[1] - ((temp[2] << 4 ^ temp[2] >> 5) + temp[2] ^ sum + k[(sum & 3)]);
+        }
+        return (temp);
+    }
+
+    function EncipherText(_button) {
+        var inString = remove(_button.form.ioput.value);
+        var p1D = 0;
+        var p2D = 0;
+        var res = null;
+        var outString = '';
+        var invlen = 100 / inString.length;
+        var errormark = "!!!!!!!\x0d\x0d!!!!!!!";
+        key = BuildKey(_button);
+        _button.form.status.value = "Preparing to encipher.";
+        while (inString.length & 0x7) {
+            inString += '\x20';
+        }
+        var i = 0;
+        while (i < inString.length) {
+            p1D = inString.charCodeAt(i++);
+            p1D |= inString.charCodeAt(i++) << 8;
+            p1D |= inString.charCodeAt(i++) << 16;
+            p1D |= inString.charCodeAt(i++) << 24;
+            p1D &= 0xFFFFFFFF;
+            p2D = inString.charCodeAt(i++);
+            p2D |= inString.charCodeAt(i++) << 8;
+            p2D |= inString.charCodeAt(i++) << 16;
+            p2D |= inString.charCodeAt(i++) << 24;
+            p2D &= 0xFFFFFFFF;
+            res = Encipher(p1D, p2D, key);
+            outString += (res[0] ? '' + DecToHex(res[1]) + DecToHex(res[2]) : errormark);
+            p1D = 0;
+            p2D = 0;
+            res = null;
+            _button.form.status.value = "Enciphering: " + Math.round(i * invlen) + "% complete.";
+        }
+        _button.form.ioput.value = "";
+        _button.form.ioput.value = outString;
+        _button.form.status.value = "Enciphering completed.";
+        return (false);
+    }
+
+    function DecipherText(_button) {
+        key = BuildKey(_button);
+        _button.form.status.value = "Preparing to decipher.";
+        var inString = _button.form.ioput.value;
+        var invlen = 100 / inString.length;
+        var p3H = '';
+        var p4H = '';
+        var p3D = 0;
+        var p4D = 0;
+        var res = null;
+        var outString = '';
+        var i = 0;
+        while (i < inString.length) {
+            p3H += inString.charAt(i++);
+            p3H += inString.charAt(i++);
+            p3H += inString.charAt(i++);
+            p3H += inString.charAt(i++);
+            p3H += inString.charAt(i++);
+            p3H += inString.charAt(i++);
+            p3H += inString.charAt(i++);
+            p3H += inString.charAt(i++);
+            p4H += inString.charAt(i++);
+            p4H += inString.charAt(i++);
+            p4H += inString.charAt(i++);
+            p4H += inString.charAt(i++);
+            p4H += inString.charAt(i++);
+            p4H += inString.charAt(i++);
+            p4H += inString.charAt(i++);
+            p4H += inString.charAt(i++);
+            p3D = parseInt(p3H, 16);
+            p4D = parseInt(p4H, 16);
+            res = Decipher(p3D, p4D, key);
+            if (res[0]) {
+                outString += String.fromCharCode((res[1] & 0x000000FF));
+                outString += String.fromCharCode((res[1] & 0x0000FF00) >> 8);
+                outString += String.fromCharCode((res[1] & 0x00FF0000) >> 16);
+                outString += String.fromCharCode((res[1] & 0xFF000000) >> 24);
+                outString += String.fromCharCode((res[2] & 0x000000FF));
+                outString += String.fromCharCode((res[2] & 0x0000FF00) >> 8);
+                outString += String.fromCharCode((res[2] & 0x00FF0000) >> 16);
+                outString += String.fromCharCode((res[2] & 0xFF000000) >> 24);
+            }
+            p3H = '';
+            p4H = '';
+            p3D = 0;
+            p4D = 0;
+            res = null;
+            _button.form.status.value = "Deciphering: " + Math.round(i * invlen) + "% complete.";
+        }
+        _button.form.ioput.value = "";
+        _button.form.ioput.value = outString;
+        _button.form.status.value = "Deciphering completed.";
+        return (false);
+    }
+
+    function addSplit(_button) {
+        key = BuildKey(_button);
+        _button.form.status.value = "Preparing to split.";
+        var inString = _button.form.ioput.value;
+        var outString = "";
+        while (inString.length > 0) {
+            outString += inString.substring(0, 200) + '\n';
+            inString = inString.substring(200);
+        }
+        _button.form.ioput.value = "";
+        _button.form.ioput.value = outString;
+        _button.form.status.value = "Split completed.";
+        return (false);
+    }
+
+    function removeSplit(_button) {
+        key = BuildKey(_button);
+        _button.form.status.value = "Preparing to de-split.";
+        var inString = _button.form.ioput.value;
+        var outString = "";
+        outString = inString.replace(/\n/g, "");
+
+        _button.form.ioput.value = "";
+        _button.form.ioput.value = outString;
+        _button.form.status.value = "Split completed.";
+        return (false);
+    }
+</script>
+
+<div id="control" class="formblock">
+    <form name="console" action="javascript:void(0)" onsubmit="return false">
+        <textarea name="ioput" cols="30" rows="14" wrap="soft"></textarea>
+        <br>
+        <input class='HEADStyle' name="status" value="" type="text" size="27" disabled>
+        <br>
+        <font color="gray">Key 1&nbsp;<input class='HEADStyle' name="encrypt_key1" type="password" size="16" value=""><br>Key 2&nbsp;<input class='HEADStyle' name="encrypt_key2" type="password" size="16" value=""><br>Key 3&nbsp;<input class='HEADStyle' name="encrypt_key3" type="password" size="16" value=""><br>Key 4&nbsp;<input class='HEADStyle' name="encrypt_key4" type="password" size="16" value=""><br> <br><input class='HEADStyle' name="decipher" value="Add Split" type="button" onclick="addSplit(this)"><input class='HEADStyle' name="decipher" value="Remove Split" type="button" onclick="removeSplit(this)"><br><input class='HEADStyle' name="reset" value="Reset" type="reset"><input class='HEADStyle' name="encipher" value="Encipher" type="button" onclick="EncipherText(this)"><input class='HEADStyle' name="decipher" value="Decipher" type="button" onclick="DecipherText(this)"><br></font>
+    </form>
+</div>
 <!-- ******************************************************************************************
 ****************************************** RC4 Encryption & Decryption End ******************************
 ********************************************************************************************-->
