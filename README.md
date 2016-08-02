@@ -1,2 +1,7 @@
 # My_Repository
-Generic Details like Maven Dependencies and others
+
+---------------------------------------------------------------------------------
+* LOOP in MYSql: 
+select repeat('*',@n:=@n-1) from GROUPINFO,(select (@n:=41) limit 40) as x;
+
+---------------------------------------------------------------------------------
